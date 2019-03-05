@@ -3,6 +3,7 @@ package test.pivotal.pal.trackerapi;
 import com.jayway.jsonpath.DocumentContext;
 import io.pivotal.pal.tracker.PalTrackerApplication;
 import io.pivotal.pal.tracker.TimeEntry;
+import io.pivotal.pal.tracker.TimeEntryBuilder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ public class TimeEntryApiTest {
 
     private final long projectId = 123L;
     private final long userId = 456L;
-    private TimeEntry timeEntry = new TimeEntry(projectId, userId, LocalDate.parse("2017-01-08"), 8);
+    private TimeEntry timeEntry = new TimeEntryBuilder().projectId(projectId).userId(userId).date(LocalDate.parse("2017-01-08")).hours(8).build();
 
     @Test
     public void testCreate() throws Exception {
@@ -88,7 +89,7 @@ public class TimeEntryApiTest {
         Long id = createTimeEntry();
         long projectId = 2L;
         long userId = 3L;
-        TimeEntry updatedTimeEntry = new TimeEntry(projectId, userId, LocalDate.parse("2017-01-09"), 9);
+        TimeEntry updatedTimeEntry = new TimeEntryBuilder().projectId(projectId).userId(userId).date(LocalDate.parse("2017-01-09")).hours(9).build();
 
 
         ResponseEntity<String> updateResponse = restTemplate.exchange("/time-entries/" + id, HttpMethod.PUT, new HttpEntity<>(updatedTimeEntry, null), String.class);

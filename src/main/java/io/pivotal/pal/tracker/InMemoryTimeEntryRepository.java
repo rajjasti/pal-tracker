@@ -12,8 +12,9 @@ public class InMemoryTimeEntryRepository implements TimeEntryRepository{
     @Override
     public TimeEntry create(TimeEntry timeEntry) {
 
-        TimeEntry timeEty=new TimeEntry(idSequence,timeEntry.getProjectId(),
-                timeEntry.getUserId(), timeEntry.getDate(), timeEntry.getHours());
+        TimeEntry timeEty= new TimeEntryBuilder(timeEntry)
+                .timeEntryId(idSequence)
+                .build();
 
         timeEntryMap.put(idSequence++, timeEty);
 
@@ -37,8 +38,7 @@ public class InMemoryTimeEntryRepository implements TimeEntryRepository{
         if(!timeEntryMap.containsKey(id))
             return null;
 
-        TimeEntry timeEty=new TimeEntry(id,timeEntry.getProjectId(),
-                timeEntry.getUserId(), timeEntry.getDate(), timeEntry.getHours());
+        TimeEntry timeEty= new TimeEntryBuilder().timeEntryId(id).projectId(timeEntry.getProjectId()).userId(timeEntry.getUserId()).date(timeEntry.getDate()).hours(timeEntry.getHours()).build();
 
         timeEntryMap.put(id, timeEty);
         return timeEty;
